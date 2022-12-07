@@ -1,5 +1,4 @@
 use actix_cors::Cors;
-use actix_multipart::Multipart;
 use actix_web::{get, post, web, App, Error, HttpRequest, HttpResponse, HttpServer, Responder};
 use whatsapp::{text_load, verification_token};
 use whatsapp_models::token::TokenRequest;

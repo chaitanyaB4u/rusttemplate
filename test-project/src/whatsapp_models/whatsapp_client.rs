@@ -3,7 +3,7 @@ use reqwest::StatusCode;
 use serde::{de::DeserializeOwned, Serialize};
 
 use super::{
-    image_response::ImageResponse, message::Message, message_response::MessageResponse,
+    message::Message, message_response::MessageResponse,
     whatsapp_error::WhatsappError,
 };
 
