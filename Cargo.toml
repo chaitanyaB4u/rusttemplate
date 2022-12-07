@@ -4,7 +4,28 @@ version = "0.1.0"
 edition = "2021"
 authors = ["VS Code <vscode@microsoft.com>"]
 [dependencies]
-actix-web = "4"
+actix-web = "3.3.3"
+actix-cors = "0.5.4"
+actix-multipart = "0.3.0"
+actix-files = "0.5.0"
+actix-rt = "2.2.0"
+futures = "0.3.16"
+juniper = "0.14.2"
+dotenv = "0.15.0"
+env_logger = "0.6"
+diesel = { version = "1.4.5", features = ["postgres", "r2d2", "chrono"] }
+serde = "1.0.126"
+serde_json = "1.0"
+sonic-channel = {version="0.5",features = ["ingest","control"]}
+chrono = "0.4.11"
+uuid = { version = "0.8.1", features = ["serde", "v4"] }
+sanitize-filename = "0.2.1"
+sodiumoxide = "0.2.6"
+tokio = { version = "1.12.0", features = ["full"] }
+surf ="2.3.2"
+reqwest = { version = "0.11.10", features = ["json"] }
+rand = "0.8"
+kafka = "0.9"
 
 
 [[bin]]
