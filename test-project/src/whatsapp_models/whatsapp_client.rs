@@ -9,12 +9,12 @@ use super::{
 
 const WHATSAPP_API_URL: &str = "https://graph.facebook.com/v15.0/105178082424775/messages";
 
-pub struct WhatasppClient {
+pub struct WhatsAppClient {
     access_token: String,
     message_id: String,
 }
 
-impl WhatasppClient {
+impl WhatsAppClient {
     pub fn new(access_token: &str, message_id: &str) -> Self {
         Self {
             access_token: access_token.into(),
