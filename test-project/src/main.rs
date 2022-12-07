@@ -1,10 +1,11 @@
 use actix_cors::Cors;
 use actix_multipart::Multipart;
-use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder, HttpRequest, Error};
-use whatsapp::{verification_token, text_load};
+use actix_web::{get, post, web, App, Error, HttpRequest, HttpResponse, HttpServer, Responder};
+use whatsapp::{text_load, verification_token};
 use whatsapp_models::token::TokenRequest;
 pub mod whatsapp;
 pub mod whatsapp_models;
+use std::env;
 #[get("/")]
 async fn hello() -> impl Responder {
     HttpResponse::Ok().body("Hello world!")
@@ -36,10 +37,10 @@ async fn main() -> std::io::Result<()> {
             .service(hello)
             .service(echo)
             .route("/hey", web::get().to(manual_hello))
-            .route("webhook", web::get().to(verify_token))
-            .route("webhook", web::post().to(post_message))
+            .route("/webhook", web::get().to(verify_token))
+            .route("/webhook", web::post().to(post_message))
     })
-    .bind(("127.0.0.1", 8080))?
+    .bind(("127.0.0.1", 8088))?
     .run()
     .await
 }

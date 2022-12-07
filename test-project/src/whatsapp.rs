@@ -11,7 +11,8 @@ use std::env;
 
 pub fn verification_token(info: web::Query<TokenRequest>) -> Result<HttpResponse, Error> {
     println!("enter the verifiction token");
-    let (token, challenge) = (info.0.token, info.0.challenge);
+    let (token, challenge) = (info.0.token, info.0.challenge);\
+    setup();
     let access_token = std::env::var("MY_TOKEN").expect("The access token is not present");
 
     if token.eq(&access_token) {
