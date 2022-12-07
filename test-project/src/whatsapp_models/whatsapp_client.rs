@@ -63,7 +63,7 @@ mod http_client {
         let read_message = ReadMessage::new(message_id);
         let read_resp = reqwest::Client::new()
             .post(url)
-            .bearer_auth(bearer_token)
+            .bearer_auth(&bearer_token)
             .json(&read_message)
             .send()
             .await?;
