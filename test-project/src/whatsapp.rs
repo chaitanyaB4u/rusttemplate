@@ -1,16 +1,16 @@
 use actix_web::{web, Error, HttpRequest, HttpResponse, ResponseError};
 
-use crate::{
-    whatsapp_models::{
-        message::{Message, Text},
-        payload_template::{self, Root},
-        whatsapp_client::WhatasppClient,
-        whatsapp_error::WhatsappError, token::TokenRequest,
-    },
+use crate::whatsapp_models::{
+    message::{Message, Text},
+    payload_template::{self, Root},
+    token::TokenRequest,
+    whatsapp_client::WhatasppClient,
+    whatsapp_error::WhatsappError,
 };
 use std::env;
 
 pub fn verification_token(info: web::Query<TokenRequest>) -> Result<HttpResponse, Error> {
+    println!("enter the verifiction token");
     let (token, challenge) = (info.0.token, info.0.challenge);
     let access_token = std::env::var("MY_TOKEN").expect("The access token is not present");
 
@@ -29,9 +29,11 @@ pub async fn text_load(_request: HttpRequest, pay_load: String) -> Result<HttpRe
     if let Some(value) = message.image {
         let input_image = value;
 
-        let env_img_url = std::env::var("WHATSAPP_IMAGE_API_URL").expect("whatsapp get image api url not found");
+        let env_img_url =
+            std::env::var("WHATSAPP_IMAGE_API_URL").expect("whatsapp get image api url not found");
         let url = format!("{}{}", env_img_url, input_image.id);
-        let access_token = std::env::var("WHATSAPP_ACCESS_TOKEN").expect("Missing environment variable WHATSAPP_ACCESS_TOKEN");
+        let access_token = std::env::var("WHATSAPP_ACCESS_TOKEN")
+            .expect("Missing environment variable WHATSAPP_ACCESS_TOKEN");
         let client = WhatasppClient::new(&access_token);
         let response = client.get_image_url(&url).await;
 
@@ -40,7 +42,6 @@ pub async fn text_load(_request: HttpRequest, pay_load: String) -> Result<HttpRe
             let replay = "recevied image ";
             send_text_message_works(from, replay.to_string()).await;
         }
-
     } else if let Some(value) = message.text {
         let input_text = value;
         dbg!(&input_text);
@@ -53,7 +54,8 @@ pub async fn text_load(_request: HttpRequest, pay_load: String) -> Result<HttpRe
 
 async fn send_text_message_works(from: String, inp_msg: String) -> Result<(), WhatsappError> {
     setup();
-    let access_token = std::env::var("WHATSAPP_ACCESS_TOKEN").expect("Missing environment variable WHATSAPP_ACCESS_TOKEN");
+    let access_token = std::env::var("WHATSAPP_ACCESS_TOKEN")
+        .expect("Missing environment variable WHATSAPP_ACCESS_TOKEN");
     let to = from;
     // std::env::var("WHATSAPP_SEND_TO").expect("Missing environment variable WHATSAPP_SEND_TO");
     let text = Text::new(&inp_msg);

@@ -2,9 +2,12 @@ use futures::future::ok;
 use reqwest::StatusCode;
 use serde::{de::DeserializeOwned, Serialize};
 
-use super::{image_response::ImageResponse, message::Message, message_response::MessageResponse, whatsapp_error::WhatsappError};
+use super::{
+    image_response::ImageResponse, message::Message, message_response::MessageResponse,
+    whatsapp_error::WhatsappError,
+};
 
-const WHATSAPP_API_URL: &str = "https://graph.facebook.com/v15.0/114578618136332/messages";
+const WHATSAPP_API_URL: &str = "https://graph.facebook.com/v15.0/105178082424775/messages";
 
 pub struct WhatasppClient {
     access_token: String,
@@ -12,7 +15,9 @@ pub struct WhatasppClient {
 
 impl WhatasppClient {
     pub fn new(access_token: &str) -> Self {
-        Self { access_token: access_token.into() }
+        Self {
+            access_token: access_token.into(),
+        }
     }
 
     pub async fn send_message(&self, message: &Message) -> Result<MessageResponse, WhatsappError> {
@@ -42,7 +47,12 @@ mod http_client {
         U: DeserializeOwned,
     {
         let client = reqwest::Client::new();
-        let resp = client.post(url).bearer_auth(&bearer_token).json(&data).send().await?;
+        let resp = client
+            .post(url)
+            .bearer_auth(&bearer_token)
+            .json(&data)
+            .send()
+            .await?;
         match resp.status() {
             StatusCode::OK | StatusCode::CREATED => {
                 let json = resp.json::<U>().await?;
